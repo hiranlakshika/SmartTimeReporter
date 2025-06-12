@@ -32,6 +32,7 @@ fun NavigationRoot(
     NavDisplay(
         modifier = modifier,
         backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
         entryDecorators = listOf(
             rememberSavedStateNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
@@ -42,7 +43,9 @@ fun NavigationRoot(
 
                 is Login -> {
                     NavEntry(key = key) {
-                        LoginScreen()
+                        LoginScreen(onLoginSuccess = {
+                            backStack.add(ReportList)
+                        })
                     }
                 }
 

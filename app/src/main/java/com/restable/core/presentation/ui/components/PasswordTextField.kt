@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,9 +27,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PasswordTextField() {
+fun PasswordTextField(onValueChange: (String) -> Unit, value: String = "") {
     val state = remember { TextFieldState() }
     var showPassword by remember { mutableStateOf(false) }
+
+    LaunchedEffect(state.text) {
+        onValueChange(state.text.toString())
+    }
+
     BasicSecureTextField(
         state = state,
         textStyle = MaterialTheme.typography.bodyMedium,

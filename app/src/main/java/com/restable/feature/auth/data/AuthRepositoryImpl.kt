@@ -10,10 +10,20 @@ class AuthRepositoryImpl @Inject constructor(private val api: RemoteLoginApi) : 
         email: String,
         password: String
     ): Result<Unit, DataError> {
-        TODO("Not yet implemented")
+        return try {
+            api.login(email, password)
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(DataError.NetworkError.UNAUTHORIZED)
+        }
     }
 
     override suspend fun logout(): Result<Unit, DataError> {
-        TODO("Not yet implemented")
+        return try {
+            api.logout()
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(DataError.NetworkError.UNKNOWN)
+        }
     }
 }
