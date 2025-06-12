@@ -1,3 +1,13 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
+
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        load(FileInputStream(localPropertiesFile))
+    }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -19,6 +29,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val supabaseUrl = localProperties.getProperty("SUPABASE_URL", "")
+        buildConfigField("String", "SUPABASE_URL", "\"$supabaseUrl\"")
+
+        val supabaseKey = localProperties.getProperty("SUPABASE_KEY", "")
+        buildConfigField("String", "SUPABASE_KEY", "\"$supabaseKey\"")
     }
 
     buildTypes {
@@ -31,14 +47,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -63,6 +80,8 @@ dependencies {
     implementation(libs.nav3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.nav3)
     implementation(libs.retrofit.converter.kotlinx)
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.bundles.supabase)
     ksp(libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
