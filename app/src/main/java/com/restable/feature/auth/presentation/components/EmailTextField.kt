@@ -12,7 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType.Companion.EmailAddress
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -30,7 +33,9 @@ fun EmailTextField(
         contentAlignment = Alignment.Center
     ) {
         BasicTextField(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+            modifier = Modifier.semantics {
+                contentType = EmailAddress
+            }.fillMaxWidth().padding(horizontal = 12.dp),
             value = value,
             onValueChange = onValueChange,
             textStyle = MaterialTheme.typography.bodyMedium,

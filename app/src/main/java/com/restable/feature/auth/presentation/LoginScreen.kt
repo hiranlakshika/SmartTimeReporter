@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalAutofillManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,6 +30,8 @@ fun LoginScreen(
 ) {
 
     val state = viewModel.state.collectAsStateWithLifecycle()
+
+    val autofillManager = LocalAutofillManager.current
 
     LaunchedEffect(state.value.isLoggedIn) {
         if (state.value.isLoggedIn) {
@@ -59,7 +62,10 @@ fun LoginScreen(
             viewModel.onEvent(AuthEvent.OnPasswordChanged(it))
         })
         Spacer(modifier = Modifier.height(12.dp))
-        ElevatedButton(onClick = { viewModel.onEvent(AuthEvent.Login) }) {
+        ElevatedButton(onClick = {
+            autofillManager?.commit()
+            viewModel.onEvent(AuthEvent.Login)
+        }) {
             Text(stringResource(R.string.login))
         }
     }
