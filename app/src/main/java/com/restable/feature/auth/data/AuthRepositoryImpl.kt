@@ -9,21 +9,11 @@ class AuthRepositoryImpl @Inject constructor(private val api: RemoteLoginApi) : 
     override suspend fun login(
         email: String,
         password: String
-    ): Result<Unit, DataError> {
-        return try {
-            api.login(email, password)
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            Result.Error(DataError.NetworkError.UNAUTHORIZED)
-        }
+    ): Result<Unit, DataError.NetworkError> {
+        return api.login(email, password)
     }
 
-    override suspend fun logout(): Result<Unit, DataError> {
-        return try {
-            api.logout()
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            Result.Error(DataError.NetworkError.UNKNOWN)
-        }
+    override suspend fun logout(): Result<Unit, DataError.NetworkError> {
+        return api.logout()
     }
 }

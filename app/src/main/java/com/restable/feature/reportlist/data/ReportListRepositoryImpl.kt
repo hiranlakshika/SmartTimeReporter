@@ -11,10 +11,15 @@ import javax.inject.Inject
 class ReportListRepositoryImpl @Inject constructor(private val api: RemoteReportApi) :
     ReportListRepository {
     override suspend fun getTimeReports(): Result<List<Report>, DataError.NetworkError> {
-        return try {
-            Result.Success(api.getTimeReports().toReports())
-        } catch (e: Exception) {
-            Result.Error(DataError.NetworkError.SERVER_ERROR)
+
+        return when (val result = api.getTimeReports()) {
+            is Result.Error -> {
+                Result.Error(result.error)
+            }
+
+            is Result.Success -> {
+                Result.Success(result.data.toReports())
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ import kotlinx.datetime.Instant
 
 @Serializable
 data class ReportDto(
-    val id: String,
+    val id: Int,
     val title: String,
     val description: String,
     @SerialName("created_at") val createdAt: Instant,
