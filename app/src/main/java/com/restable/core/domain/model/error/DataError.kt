@@ -13,6 +13,7 @@ sealed interface DataError : Error {
         NOT_FOUND,
         REQUEST_TIMEOUT,
         CONNECTION_ERROR,
+        SUPABASE_ERROR,
         UNKNOWN
     }
 }
