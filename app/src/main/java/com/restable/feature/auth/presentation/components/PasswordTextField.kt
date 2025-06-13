@@ -1,4 +1,4 @@
-package com.restable.core.presentation.ui.components
+package com.restable.feature.auth.presentation.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,10 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.restable.R
 
 @Composable
-fun PasswordTextField(onValueChange: (String) -> Unit, value: String = "") {
+fun PasswordTextField(onValueChange: (String) -> Unit) {
     val state = remember { TextFieldState() }
     var showPassword by remember { mutableStateOf(false) }
 
@@ -50,11 +53,19 @@ fun PasswordTextField(onValueChange: (String) -> Unit, value: String = "") {
             .border(1.dp, Color.LightGray, RoundedCornerShape(6.dp))
             .padding(6.dp),
         decorator = { innerTextField ->
-            Box(modifier = Modifier.fillMaxWidth()) {
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterStart) {
+                if (state.text.isEmpty()) {
+                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = stringResource(R.string.password),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
-                        .padding(start = 16.dp, end = 48.dp)
+                        .padding(start = 10.dp, end = 48.dp)
                 ) {
                     innerTextField()
                 }

@@ -2,4 +2,7 @@
     <string name="app_name">Smart Time Reporter</string>
     <string name="time_reports">Time reports</string>
     <string name="hours">hours</string>
+    <string name="login">Login</string>
+    <string name="sign_in">Sign in</string>
+    <string name="password">Password</string>
 </resources>
